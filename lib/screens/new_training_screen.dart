@@ -40,7 +40,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   void _submitData() {
     final enteredPart = _selectedPart;
     final enteredWeights = double.parse(_weightsController.text);
-    final enteredTimes = int.parse(_timesController.text);
+    final enteredTimes = double.parse(_timesController.text);
 
     if (enteredPart.isEmpty ||
         enteredWeights < 0.0 ||
@@ -53,6 +53,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
       part: enteredPart,
       weights: enteredWeights,
       times: enteredTimes,
+      volume: enteredWeights * enteredTimes,
       date: _selectedDate,
       id: DateTime.now().toString(),
     );

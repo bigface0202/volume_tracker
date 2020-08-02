@@ -4,7 +4,8 @@ class Training with ChangeNotifier {
   String id;
   String part;
   double weights;
-  int times;
+  double times;
+  double volume;
   DateTime date;
 
   Training({
@@ -12,6 +13,7 @@ class Training with ChangeNotifier {
     @required this.part,
     @required this.weights,
     @required this.times,
+    @required this.volume,
     @required this.date,
   });
 }

@@ -101,12 +101,17 @@ class _DayTrainingListState extends State<DayTrainingList> {
                                 ),
                                 Text(
                                   '${trainings.userTrainings[index].weights} kg',
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 16),
                                   textAlign: TextAlign.right,
                                 ),
                                 Text(
                                   '${trainings.userTrainings[index].times} times',
-                                  style: TextStyle(fontSize: 20),
+                                  style: TextStyle(fontSize: 16),
+                                  textAlign: TextAlign.center,
+                                ),
+                                Text(
+                                  '${trainings.userTrainings[index].volume} vol.',
+                                  style: TextStyle(fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),
                               ],

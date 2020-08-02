@@ -11,7 +11,7 @@ class DBHelper {
 
   static void _createDb(Database db) {
     db.execute(
-        'CREATE TABLE user_trainings(id TEXT PRIMARY KEY, part TEXT, weights REAL, times REAL, date TEXT)');
+        'CREATE TABLE user_trainings(id TEXT PRIMARY KEY, part TEXT, weights REAL, times REAL, volume REAL, date TEXT)');
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {

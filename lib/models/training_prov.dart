@@ -26,6 +26,7 @@ class TrainingProv with ChangeNotifier {
       part: training.part,
       weights: training.weights,
       times: training.times,
+      volume: training.volume,
       date: training.date,
     );
     _userTraining.add(newTraining);
@@ -35,6 +36,7 @@ class TrainingProv with ChangeNotifier {
       'part': training.part,
       'weights': training.weights,
       'times': training.times,
+      'volume': training.volume,
       'date': training.date.toString(),
     });
   }
@@ -56,6 +58,7 @@ class TrainingProv with ChangeNotifier {
               part: item['part'],
               weights: item['weights'],
               times: item['times'],
+              volume: item['volume'],
               date: DateTime.parse(item['date'])),
         )
         .toList();
