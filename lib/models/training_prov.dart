@@ -13,11 +13,33 @@ class TrainingProv with ChangeNotifier {
   }
 
   List<Training> onedayTrainings(DateTime date) {
-    return _userTraining
+    // return _userTraining
+    List<Training> test = _userTraining
         .where((usrTg) =>
             DateFormat.yMMMMEEEEd().format(usrTg.date) ==
             DateFormat.yMMMMEEEEd().format(date))
         .toList();
+
+    return test;
+  }
+
+  Map<String, double> volumeCalc(DateTime date) {
+    Map<String, double> partsVolume = {
+      "Shoulder": 0,
+      "Chest": 0,
+      "Biceps": 0,
+      "Triceps": 0,
+      "Arm": 0,
+      "Back": 0,
+      "Abdominal": 0,
+      "Leg": 0
+    };
+    List oneTgs = onedayTrainings(date);
+    oneTgs.forEach((element) {
+      partsVolume.update(element.part, (value) => value + element.volume);
+    });
+    print(partsVolume);
+    return partsVolume;
   }
 
   void addTraining(Training training) {

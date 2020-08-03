@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './graph_screen.dart';
-import './Training_screen.dart';
+import './training_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   @override
