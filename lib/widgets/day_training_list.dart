@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../models/training_prov.dart';
 
 class DayTrainingList extends StatefulWidget {
-  final DateTime oneday;
+  final String oneday;
   DayTrainingList(this.oneday);
 
   @override

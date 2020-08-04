@@ -12,18 +12,15 @@ class TrainingProv with ChangeNotifier {
     return [..._userTraining];
   }
 
-  List<Training> onedayTrainings(DateTime date) {
+  List<Training> onedayTrainings(String date) {
     // return _userTraining
-    List<Training> test = _userTraining
-        .where((usrTg) =>
-            DateFormat.yMMMMEEEEd().format(usrTg.date) ==
-            DateFormat.yMMMMEEEEd().format(date))
-        .toList();
+    List<Training> test =
+        _userTraining.where((usrTg) => usrTg.date == date).toList();
 
     return test;
   }
 
-  Map<String, double> volumeCalc(DateTime date) {
+  Map<String, double> volumeCalc(String date) {
     Map<String, double> partsVolume = {
       "Shoulder": 0,
       "Chest": 0,
@@ -38,8 +35,15 @@ class TrainingProv with ChangeNotifier {
     oneTgs.forEach((element) {
       partsVolume.update(element.part, (value) => value + element.volume);
     });
-    print(partsVolume);
     return partsVolume;
+  }
+
+  List<String> get trainingDates {
+    List<String> test = [];
+    _userTraining.forEach((usrTg) {
+      test.add(usrTg.date);
+    });
+    return test.toSet().toList();
   }
 
   void addTraining(Training training) {
@@ -81,7 +85,7 @@ class TrainingProv with ChangeNotifier {
               weights: item['weights'],
               times: item['times'],
               volume: item['volume'],
-              date: DateTime.parse(item['date'])),
+              date: item['date']),
         )
         .toList();
     notifyListeners();

@@ -6,7 +6,7 @@ class Training with ChangeNotifier {
   double weights;
   double times;
   double volume;
-  DateTime date;
+  String date;
 
   Training({
     @required this.id,

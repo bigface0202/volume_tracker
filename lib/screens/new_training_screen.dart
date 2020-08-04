@@ -17,7 +17,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _weightsController = TextEditingController();
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
-  DateTime _selectedDate = DateTime.now();
+  String _selectedDate = DateFormat.yMMMEd().format(DateTime.now());
   String _selectedPart;
   List<String> _parts = [
     "Shoulder",
@@ -72,7 +72,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
         return;
       }
       setState(() {
-        _selectedDate = pickedDate;
+        _selectedDate = DateFormat.yMMMEd().format(pickedDate);
       });
     });
   }
@@ -104,7 +104,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                     Container(
                       padding: EdgeInsets.all(10),
                       child: Text(
-                        'Chosen date: ${DateFormat.yMMMd().format(_selectedDate)}',
+                        'Chosen date: $_selectedDate',
                         style: TextStyle(fontSize: 20),
                       ),
                     ),
