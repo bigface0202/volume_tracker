@@ -16,6 +16,7 @@ class _DayTrainingListState extends State<DayTrainingList> {
   Widget build(BuildContext context) {
     return Consumer<TrainingProv>(
       child: Container(
+        margin: const EdgeInsets.all(10.0),
         child: Center(
           child: const Text('Training list empty'),
         ),

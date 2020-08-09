@@ -112,7 +112,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.calendar_today),
-                          color: Colors.blue,
+                          color: Colors.indigo,
                           onPressed: _presentDatePicker,
                         ),
                         Text('Change date')
@@ -217,7 +217,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onPressed: _submitData,
-                  color: Colors.blueAccent,
+                  color: Colors.indigo,
                 ),
                 Divider(
                   color: Colors.grey,

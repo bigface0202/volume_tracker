@@ -50,12 +50,12 @@ class _TabsScreenState extends State<TabsScreen>
         type: BottomNavigationBarType.shifting,
         items: [
           BottomNavigationBarItem(
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.indigo,
             icon: Icon(Icons.check_box),
             title: Text('Training Volume Tracker'),
           ),
           BottomNavigationBarItem(
-            backgroundColor: Colors.blue,
+            backgroundColor: Colors.indigo,
             icon: Icon(Icons.insert_chart),
             title: Text('Graph'),
           )

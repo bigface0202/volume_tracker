@@ -18,7 +18,7 @@ class _TrainingListState extends State<TrainingList> {
       child: Container(
         padding: EdgeInsets.only(top: 265, bottom: 265),
         child: Center(
-          child: const Text('Week Done List empty'),
+          child: const Text('Start new training!'),
         ),
       ),
       builder: (ctx, trainings, ch) => trainings.trainingDates.length <= 0

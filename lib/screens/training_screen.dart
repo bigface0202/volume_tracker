@@ -36,6 +36,7 @@ class _TrainingScreenState extends State<TrainingScreen> {
         onPressed: () async {
           await Navigator.of(context).pushNamed('/new-training');
         },
+        backgroundColor: Colors.indigo,
       ),
     );
   }

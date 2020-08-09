@@ -19,6 +19,9 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         initialRoute: '/',
+        theme: ThemeData(
+          primaryColor: Colors.indigo,
+        ),
         routes: {
           '/': (ctx) => TabsScreen(),
           NewTrainingScreen.routeName: (ctx) => NewTrainingScreen(),
