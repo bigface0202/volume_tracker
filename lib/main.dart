@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'models/training_prov.dart';
+import 'models/volume_prov.dart';
 import './screens/tabs_screen.dart';
 import './screens/new_training_screen.dart';
 
@@ -14,6 +15,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (ctx) => TrainingProv(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => VolumeProv(),
         ),
       ],
       child: MaterialApp(

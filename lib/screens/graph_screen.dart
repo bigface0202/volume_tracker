@@ -12,10 +12,10 @@ class GraphScreen extends StatefulWidget {
 class _GraphScreenState extends State<GraphScreen> {
   @override
   Widget build(BuildContext context) {
-    // final transaction = Provider.of<TransactionProv>(context);
-    // List<charts.Series<KeyAndTime, String>> _createSampleData() {
+    // final transaction = Provider.of<TrainingProv>(context);
+    // List<charts.Series<String, double>> _createSampleData() {
     //   return [
-    //     new charts.Series<KeyAndTime, String>(
+    //     new charts.Series<String, double>(
     //       id: 'Key',
     //       domainFn: (KeyAndTime keyandtime, _) => keyandtime.key,
     //       measureFn: (KeyAndTime keyandtime, _) => keyandtime.sumTime,

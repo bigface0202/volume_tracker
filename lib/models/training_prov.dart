@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
-import 'package:intl/intl.dart';
 
 import './training.dart';
 import '../helpers/db_helper.dart';
@@ -16,7 +15,6 @@ class TrainingProv with ChangeNotifier {
     // return _userTraining
     List<Training> test =
         _userTraining.where((usrTg) => usrTg.date == date).toList();
-
     return test;
   }
 
@@ -63,7 +61,7 @@ class TrainingProv with ChangeNotifier {
       'weights': training.weights,
       'times': training.times,
       'volume': training.volume,
-      'date': training.date.toString(),
+      'date': training.date,
     });
   }
 

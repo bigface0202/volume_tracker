@@ -5,6 +5,8 @@ import 'package:provider/provider.dart';
 
 import '../models/training.dart';
 import '../models/training_prov.dart';
+import '../models/volume.dart';
+import '../models/volume_prov.dart';
 import '../widgets/day_training_list.dart';
 
 class NewTrainingScreen extends StatefulWidget {
@@ -17,7 +19,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _weightsController = TextEditingController();
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
-  String _selectedDate = DateFormat.yMMMEd().format(DateTime.now());
+  String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart;
   List<String> _parts = [
     "Shoulder",
@@ -58,13 +60,28 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
       id: DateTime.now().toString(),
     );
     Provider.of<TrainingProv>(context, listen: false).addTraining(newTg);
-    // FocusScope.of(context).unfocus();
+    final Map calculatedVolume =
+        Provider.of<TrainingProv>(context, listen: false)
+            .volumeCalc(_selectedDate);
+    final newVol = Volume(
+      id: DateTime.now().toString(),
+      date: _selectedDate,
+      shoulder: calculatedVolume["Shoulder"],
+      chest: calculatedVolume["Chest"],
+      biceps: calculatedVolume["Biceps"],
+      triceps: calculatedVolume["Triceps"],
+      arm: calculatedVolume["Arm"],
+      back: calculatedVolume["Back"],
+      abdominal: calculatedVolume["Abdominal"],
+      leg: calculatedVolume["Leg"],
+    );
+    Provider.of<VolumeProv>(context, listen: false).addVolume(newVol);
   }
 
   void _presentDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime.parse(_selectedDate),
       firstDate: DateTime(2020),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
@@ -72,7 +89,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
         return;
       }
       setState(() {
-        _selectedDate = DateFormat.yMMMEd().format(pickedDate);
+        _selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     });
   }
@@ -103,9 +120,18 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                   children: <Widget>[
                     Container(
                       padding: EdgeInsets.all(10),
-                      child: Text(
-                        'Chosen date: $_selectedDate',
-                        style: TextStyle(fontSize: 20),
+                      child: Row(
+                        children: [
+                          Text(
+                            'Chosen date: ',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            '$_selectedDate',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
                     ),
                     Column(
@@ -123,7 +149,10 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: <Widget>[
-                    Text('Choose your training part'),
+                    Text(
+                      'Choose your training part',
+                      style: TextStyle(fontSize: 16),
+                    ),
                     DropdownButton<String>(
                       value: _selectedPart,
                       icon: Icon(Icons.arrow_drop_down),
