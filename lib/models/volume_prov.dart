@@ -26,8 +26,8 @@ class VolumeProv with ChangeNotifier {
     final volumeIndex = _userVolume
         .indexWhere((existedVolume) => existedVolume.date == newVolume.date);
     if (volumeIndex >= 0) {
-      _userVolume[volumeIndex] = newVolume;
       String _updateId = _userVolume[volumeIndex].id;
+      _userVolume[volumeIndex] = newVolume;
       notifyListeners();
       DBHelper.update(
         'user_volumes',
@@ -46,6 +46,7 @@ class VolumeProv with ChangeNotifier {
         },
       );
     } else {
+      print("not existed");
       _userVolume.add(newVolume);
       notifyListeners();
       DBHelper.insert(
@@ -91,6 +92,7 @@ class VolumeProv with ChangeNotifier {
         )
         .toList();
     notifyListeners();
+    print(dataList);
   }
 
   // Future<void> updateVolumes(String date, Volume newVolume) async {

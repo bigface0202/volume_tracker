@@ -37,7 +37,13 @@ class DBHelper {
   static Future<void> update(
       String table, String id, Map<String, Object> data) async {
     final db = await DBHelper.database();
-    db.update(table, data, where: "id = ?", whereArgs: [id]);
+    db.update(
+      table,
+      data,
+      where: "id = ?",
+      whereArgs: [id],
+    );
+    print(await db.query(table));
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

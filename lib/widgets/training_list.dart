@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:volume_tracker/widgets/day_volume.dart';
+import 'package:volume_tracker/widgets/make_pie_chart.dart';
 
 import '../models/volume_prov.dart';
 
@@ -45,23 +45,33 @@ class _TrainingListState extends State<TrainingList> {
                         ),
                         child: Column(
                           children: <Widget>[
-                            Text(
-                              volumes.userVolumes[index].date,
-                              style: TextStyle(fontSize: 20),
+                            Row(
+                              children: <Widget>[
+                                Text(
+                                  volumes.userVolumes[index].date,
+                                  style: TextStyle(fontSize: 20),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
                             ),
-                            buildCard("Shoulder",
-                                volumes.userVolumes[index].shoulder),
-                            buildCard(
-                                "Chest", volumes.userVolumes[index].chest),
-                            buildCard(
-                                "Biceps", volumes.userVolumes[index].biceps),
-                            buildCard(
-                                "Triceps", volumes.userVolumes[index].triceps),
-                            buildCard("Arm", volumes.userVolumes[index].arm),
-                            buildCard("Back", volumes.userVolumes[index].back),
-                            buildCard("Abdominal",
-                                volumes.userVolumes[index].abdominal),
-                            buildCard("Leg", volumes.userVolumes[index].leg),
+                            // buildCard("Shoulder",
+                            //     volumes.userVolumes[index].shoulder),
+                            // buildCard(
+                            //     "Chest", volumes.userVolumes[index].chest),
+                            // buildCard(
+                            //     "Biceps", volumes.userVolumes[index].biceps),
+                            // buildCard(
+                            //     "Triceps", volumes.userVolumes[index].triceps),
+                            // buildCard("Arm", volumes.userVolumes[index].arm),
+                            // buildCard("Back", volumes.userVolumes[index].back),
+                            // buildCard("Abdominal",
+                            //     volumes.userVolumes[index].abdominal),
+                            // buildCard("Leg", volumes.userVolumes[index].leg),
+                            SizedBox(
+                                width: 500.0,
+                                height: 500.0,
+                                child:
+                                    MakePieChart(volumes.userVolumes[index])),
                           ],
                         ),
                       );

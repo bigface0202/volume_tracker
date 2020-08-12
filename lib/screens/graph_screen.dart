@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:provider/provider.dart';
+import 'package:volume_tracker/models/volume_prov.dart';
 
-import '../models/training_prov.dart';
+import '../models/volume.dart';
+import '../models/volume_prov.dart';
 
 class GraphScreen extends StatefulWidget {
   @override
@@ -12,15 +14,14 @@ class GraphScreen extends StatefulWidget {
 class _GraphScreenState extends State<GraphScreen> {
   @override
   Widget build(BuildContext context) {
-    // final transaction = Provider.of<TrainingProv>(context);
-    // List<charts.Series<String, double>> _createSampleData() {
+    // final volume = Provider.of<VolumeProv>(context);
+    // List<charts.Series<Volume, double>> _createSampleData() {
     //   return [
-    //     new charts.Series<String, double>(
+    //     new charts.Series<Volume, double>(
     //       id: 'Key',
-    //       domainFn: (KeyAndTime keyandtime, _) => keyandtime.key,
-    //       measureFn: (KeyAndTime keyandtime, _) => keyandtime.sumTime,
-    //       data: transaction.sumSpendTime,
-    //       labelAccessorFn: (KeyAndTime row, _) => '${row.key}: ${row.sumTime}',
+    //       domainFn: (Volume keyandtime, _) => keyandtime.key,
+    //       measureFn: (Volume keyandtime, _) => keyandtime.sumTime,
+    //       data: volume.userVolumes,
     //     )
     //   ];
     // }
