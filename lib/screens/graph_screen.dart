@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:provider/provider.dart';
-import 'package:volume_tracker/models/volume_prov.dart';
+import 'package:intl/intl.dart';
 
-import '../models/volume.dart';
-import '../models/volume_prov.dart';
+import '../widgets/make_bar_chart.dart';
 
 class GraphScreen extends StatefulWidget {
   @override
@@ -12,41 +9,119 @@ class GraphScreen extends StatefulWidget {
 }
 
 class _GraphScreenState extends State<GraphScreen> {
+  ValueNotifier<DateTime> _dateTimeNotifier =
+      ValueNotifier<DateTime>(DateTime.now());
+  String _startDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String _endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+
+  void _startDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: _dateTimeNotifier.value,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2021),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      if (pickedDate.isBefore(DateTime.parse(_endDate))) {
+        setState(() {
+          _dateTimeNotifier.value = pickedDate;
+          _startDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+        });
+      } else {
+        setState(() {
+          _dateTimeNotifier.value = DateTime.now();
+          _startDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+        });
+      }
+    });
+  }
+
+  void _endDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: _dateTimeNotifier.value ?? DateTime.now(),
+      firstDate: _dateTimeNotifier.value,
+      lastDate: DateTime(2021),
+    ).then(
+      (pickedDate) {
+        if (pickedDate == null) {
+          return;
+        }
+        if (pickedDate.isAfter(DateTime.parse(_startDate))) {
+          setState(() {
+            _endDate = DateFormat('yyyy-MM-dd').format(pickedDate);
+          });
+        } else {
+          setState(() {
+            _endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+          });
+        }
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final volume = Provider.of<VolumeProv>(context);
-    // List<charts.Series<Volume, double>> _createSampleData() {
-    //   return [
-    //     new charts.Series<Volume, double>(
-    //       id: 'Key',
-    //       domainFn: (Volume keyandtime, _) => keyandtime.key,
-    //       measureFn: (Volume keyandtime, _) => keyandtime.sumTime,
-    //       data: volume.userVolumes,
-    //     )
-    //   ];
-    // }
-
-    // return transaction.sumSpendTime.length == 0
-    //     ? Container()
-    //     : Container(
-    //         // child: Text(transaction.sumSpendTime()[0].key),
-    //         padding: EdgeInsets.all(60),
-    //         child: charts.PieChart(
-    //           _createSampleData(),
-    //           animate: true,
-    //           defaultRenderer: new charts.ArcRendererConfig(
-    //             arcWidth: 100,
-    //             arcRendererDecorators: [
-    //               new charts.ArcLabelDecorator(
-    //                 insideLabelStyleSpec:
-    //                     new charts.TextStyleSpec(fontSize: 15),
-    //                 outsideLabelStyleSpec:
-    //                     new charts.TextStyleSpec(fontSize: 15),
-    //               )
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    return Container();
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              'Start date: ',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              '$_startDate',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  color: Colors.indigo,
+                  onPressed: _startDatePicker,
+                ),
+                Text('Change date')
+              ],
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              'End date: ',
+              style: TextStyle(fontSize: 16),
+            ),
+            Text(
+              '$_endDate',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Column(
+              children: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.calendar_today),
+                  color: Colors.indigo,
+                  onPressed: _endDatePicker,
+                ),
+                Text('Change date')
+              ],
+            )
+          ],
+        ),
+        FlatButton(
+          child: Text(
+            'Show Graph',
+            style: TextStyle(color: Colors.white),
+          ),
+          color: Colors.indigo,
+          onPressed: () {},
+        ),
+        MakeBarChart(),
+      ],
+    );
   }
 }
