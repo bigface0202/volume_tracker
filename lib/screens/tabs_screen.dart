@@ -52,7 +52,7 @@ class _TabsScreenState extends State<TabsScreen>
           BottomNavigationBarItem(
             backgroundColor: Colors.indigo,
             icon: Icon(Icons.check_box),
-            title: Text('Dayly Tracker'),
+            title: Text('Daily Tracker'),
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.indigo,

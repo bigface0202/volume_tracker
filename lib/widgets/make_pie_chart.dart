@@ -50,7 +50,7 @@ class MakePieChart extends StatelessWidget {
       padding: EdgeInsets.all(0),
       child: charts.PieChart(
         _createSampleData(),
-        animate: true,
+        animate: false,
         defaultRenderer: new charts.ArcRendererConfig(
           arcWidth: 100,
           arcRendererDecorators: [

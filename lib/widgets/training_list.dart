@@ -53,19 +53,6 @@ class _TrainingListState extends State<TrainingList> {
                                 ),
                               ],
                             ),
-                            // buildCard("Shoulder",
-                            //     volumes.userVolumes[index].shoulder),
-                            // buildCard(
-                            //     "Chest", volumes.userVolumes[index].chest),
-                            // buildCard(
-                            //     "Biceps", volumes.userVolumes[index].biceps),
-                            // buildCard(
-                            //     "Triceps", volumes.userVolumes[index].triceps),
-                            // buildCard("Arm", volumes.userVolumes[index].arm),
-                            // buildCard("Back", volumes.userVolumes[index].back),
-                            // buildCard("Abdominal",
-                            //     volumes.userVolumes[index].abdominal),
-                            // buildCard("Leg", volumes.userVolumes[index].leg),
                             SizedBox(
                               width: 500.0,
                               height: 300.0,
@@ -79,17 +66,6 @@ class _TrainingListState extends State<TrainingList> {
           );
         }
       },
-    );
-  }
-
-  Card buildCard(String part, double volumes) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(
-        vertical: 5,
-        horizontal: 5,
-      ),
-      child: Text('$part: $volumes vol.'),
     );
   }
 }
