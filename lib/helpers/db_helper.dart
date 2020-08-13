@@ -43,6 +43,7 @@ class DBHelper {
       where: "id = ?",
       whereArgs: [id],
     );
+    // print(await db.query(table));
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

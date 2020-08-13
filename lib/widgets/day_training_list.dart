@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../models/training.dart';
 import '../models/training_prov.dart';
+import '../models/volume.dart';
+import '../models/volume_prov.dart';
 
 class DayTrainingList extends StatefulWidget {
   final String oneday;
@@ -12,6 +15,37 @@ class DayTrainingList extends StatefulWidget {
 }
 
 class _DayTrainingListState extends State<DayTrainingList> {
+  void _deleteData(Training deleteDataList) {
+    final String deleteId = deleteDataList.id;
+    final String updateDate = deleteDataList.date;
+    // Delete training in user_trainings table
+    Provider.of<TrainingProv>(context, listen: false).removeTraining(deleteId);
+    // Update volume in user_volumes table
+    if (Provider.of<TrainingProv>(context, listen: false)
+            .onedayTrainings(updateDate)
+            .length >
+        0) {
+      final Map calculatedVolume =
+          Provider.of<TrainingProv>(context, listen: false)
+              .volumeCalc(updateDate);
+      final newVol = Volume(
+        id: DateTime.now().toString(),
+        date: updateDate,
+        shoulder: calculatedVolume["Shoulder"],
+        chest: calculatedVolume["Chest"],
+        biceps: calculatedVolume["Biceps"],
+        triceps: calculatedVolume["Triceps"],
+        arm: calculatedVolume["Arm"],
+        back: calculatedVolume["Back"],
+        abdominal: calculatedVolume["Abdominal"],
+        leg: calculatedVolume["Leg"],
+      );
+      Provider.of<VolumeProv>(context, listen: false).addVolume(newVol);
+    } else {
+      Provider.of<VolumeProv>(context, listen: false).removeVolume(updateDate);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -90,10 +124,8 @@ class _DayTrainingListState extends State<DayTrainingList> {
                               ),
                             ),
                           );
-                          Provider.of<TrainingProv>(context, listen: false)
-                              .removeTraining(trainings
-                                  .onedayTrainings(widget.oneday)[index]
-                                  .id);
+                          _deleteData(
+                              trainings.onedayTrainings(widget.oneday)[index]);
                         },
                         child: Card(
                           elevation: 2,

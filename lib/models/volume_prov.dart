@@ -66,11 +66,14 @@ class VolumeProv with ChangeNotifier {
     }
   }
 
-  void removeVolume(String id) {
-    final exsistingVolumeIndex = _userVolume.indexWhere((vol) => vol.id == id);
+  void removeVolume(String date) {
+    final String deleteId =
+        _userVolume.where((usrVol) => usrVol.date == date).toList()[0].id;
+    final exsistingVolumeIndex =
+        _userVolume.indexWhere((vol) => vol.id == deleteId);
     _userVolume.removeAt(exsistingVolumeIndex);
     notifyListeners();
-    DBHelper.delete('user_volumes', id);
+    DBHelper.delete('user_volumes', deleteId);
   }
 
   Future<void> fetchAndSetVolumes() async {
