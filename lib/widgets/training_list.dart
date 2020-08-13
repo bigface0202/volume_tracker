@@ -10,7 +10,6 @@ class TrainingList extends StatefulWidget {
 }
 
 class _TrainingListState extends State<TrainingList> {
-  DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -68,10 +67,10 @@ class _TrainingListState extends State<TrainingList> {
                             //     volumes.userVolumes[index].abdominal),
                             // buildCard("Leg", volumes.userVolumes[index].leg),
                             SizedBox(
-                                width: 500.0,
-                                height: 500.0,
-                                child:
-                                    MakePieChart(volumes.userVolumes[index])),
+                              width: 500.0,
+                              height: 300.0,
+                              child: MakePieChart(volumes.userVolumes[index]),
+                            ),
                           ],
                         ),
                       );

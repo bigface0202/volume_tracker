@@ -46,7 +46,6 @@ class VolumeProv with ChangeNotifier {
         },
       );
     } else {
-      print("not existed");
       _userVolume.add(newVolume);
       notifyListeners();
       DBHelper.insert(
@@ -92,7 +91,6 @@ class VolumeProv with ChangeNotifier {
         )
         .toList();
     notifyListeners();
-    print(dataList);
   }
 
   // Future<void> updateVolumes(String date, Volume newVolume) async {

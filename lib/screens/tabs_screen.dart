@@ -21,7 +21,7 @@ class _TabsScreenState extends State<TabsScreen>
       },
       {
         'page': GraphScreen(),
-        'title': 'Graph',
+        'title': 'Training Volume Tracker',
       },
     ];
     super.initState();
@@ -52,12 +52,12 @@ class _TabsScreenState extends State<TabsScreen>
           BottomNavigationBarItem(
             backgroundColor: Colors.indigo,
             icon: Icon(Icons.check_box),
-            title: Text('Training Volume Tracker'),
+            title: Text('Dayly Tracker'),
           ),
           BottomNavigationBarItem(
             backgroundColor: Colors.indigo,
             icon: Icon(Icons.insert_chart),
-            title: Text('Graph'),
+            title: Text('Weekly Tracker'),
           )
         ],
       ),
