@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 import '../widgets/make_bar_chart.dart';
+import '../models/volume_prov.dart';
+import '../models/part_volume.dart';
 
 class GraphScreen extends StatefulWidget {
   @override
@@ -11,13 +15,22 @@ class GraphScreen extends StatefulWidget {
 class _GraphScreenState extends State<GraphScreen> {
   ValueNotifier<DateTime> _dateTimeNotifier =
       ValueNotifier<DateTime>(DateTime.now());
-  String _startDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String _startDate = DateFormat('yyyy-MM-dd')
+      .format(DateTime.now().subtract(Duration(days: 6)));
   String _endDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  List<PartVolume> periodPartVolume = [];
+
+  @override
+  void initState() {
+    periodPartVolume =
+        _calcPeriod(DateTime.parse(_startDate), DateTime.parse(_endDate));
+    super.initState();
+  }
 
   void _startDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: _dateTimeNotifier.value,
+      initialDate: _dateTimeNotifier.value.subtract(Duration(days: 7)),
       firstDate: DateTime(2000),
       lastDate: DateTime(2021),
     ).then((pickedDate) {
@@ -41,7 +54,7 @@ class _GraphScreenState extends State<GraphScreen> {
   void _endDatePicker() {
     showDatePicker(
       context: context,
-      initialDate: _dateTimeNotifier.value ?? DateTime.now(),
+      initialDate: DateTime.parse(_endDate),
       firstDate: _dateTimeNotifier.value,
       lastDate: DateTime(2021),
     ).then(
@@ -60,6 +73,31 @@ class _GraphScreenState extends State<GraphScreen> {
         }
       },
     );
+  }
+
+  List<PartVolume> _calcPeriod(DateTime sDate, DateTime eDate) {
+    Map<String, double> _periodVolume =
+        Provider.of<VolumeProv>(context, listen: false)
+            .calcPeriodVolume(sDate, eDate);
+    final data = [
+      PartVolume("Shoulder", _periodVolume['shoulder'],
+          charts.MaterialPalette.pink.shadeDefault),
+      new PartVolume("Chest", _periodVolume['chest'],
+          charts.MaterialPalette.deepOrange.shadeDefault),
+      new PartVolume("Biceps", _periodVolume['biceps'],
+          charts.MaterialPalette.yellow.shadeDefault),
+      new PartVolume("Triceps", _periodVolume['triceps'],
+          charts.MaterialPalette.lime.shadeDefault),
+      new PartVolume("Arm", _periodVolume['arm'],
+          charts.MaterialPalette.green.shadeDefault),
+      new PartVolume("Back", _periodVolume['back'],
+          charts.MaterialPalette.cyan.shadeDefault),
+      new PartVolume("Abdominal", _periodVolume['abdominal'],
+          charts.MaterialPalette.indigo.shadeDefault),
+      new PartVolume("Leg", _periodVolume['leg'],
+          charts.MaterialPalette.purple.shadeDefault),
+    ];
+    return data;
   }
 
   @override
@@ -118,9 +156,17 @@ class _GraphScreenState extends State<GraphScreen> {
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.indigo,
-          onPressed: () {},
+          onPressed: () {
+            setState(() {
+              periodPartVolume = _calcPeriod(
+                  DateTime.parse(_startDate), DateTime.parse(_endDate));
+            });
+          },
         ),
-        MakeBarChart(),
+        periodPartVolume.length > 0
+            ? SizedBox(
+                width: 400, height: 300, child: MakeBarChart(periodPartVolume))
+            : Container(),
       ],
     );
   }

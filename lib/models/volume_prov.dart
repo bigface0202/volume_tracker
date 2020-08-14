@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl/intl.dart';
 
 import './volume.dart';
 import '../helpers/db_helper.dart';
@@ -96,12 +97,37 @@ class VolumeProv with ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> updateVolumes(String date, Volume newVolume) async {
-  //   final volumeIndex =
-  //       _userVolume.indexWhere((volume) => volume.date == date);
-  //   _userVolume[volumeIndex] = newVolume;
-  //   if (volumeIndex >= 0){
-
-  //   }
-  // }
+  Map<String, double> calcPeriodVolume(DateTime sDate, DateTime eDate) {
+    int _range = DateTimeRange(start: sDate, end: eDate).duration.inDays + 1;
+    Map<String, double> _periodVolume = {
+      'shoulder': 0,
+      'chest': 0,
+      'biceps': 0,
+      'triceps': 0,
+      'arm': 0,
+      'back': 0,
+      'abdominal': 0,
+      'leg': 0,
+    };
+    List.generate(
+      _range,
+      (index) {
+        final weekDay =
+            DateFormat('yyyy-MM-dd').format(sDate.add(Duration(days: index)));
+        for (var i = 0; i < _userVolume.length; i++) {
+          if (_userVolume[i].date == weekDay) {
+            _periodVolume['shoulder'] += userVolumes[i].shoulder;
+            _periodVolume['chest'] += userVolumes[i].chest;
+            _periodVolume['biceps'] += userVolumes[i].biceps;
+            _periodVolume['triceps'] += userVolumes[i].triceps;
+            _periodVolume['arm'] += userVolumes[i].arm;
+            _periodVolume['back'] += userVolumes[i].back;
+            _periodVolume['abdominal'] += userVolumes[i].abdominal;
+            _periodVolume['leg'] += userVolumes[i].leg;
+          }
+        }
+      },
+    );
+    return _periodVolume;
+  }
 }

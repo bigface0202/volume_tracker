@@ -88,28 +88,4 @@ class TrainingProv with ChangeNotifier {
         .toList();
     notifyListeners();
   }
-
-  // List<KeyAndTime> get sumSpendTime {
-  //   // タイトル毎に使った時間のリスト
-  //   List<KeyAndTime> _spentTimeList = [];
-  //   // タイトルのリストを作成
-  //   List titleList = [];
-  //   for (var i = 0; i < _userTraining.length; i++) {
-  //     titleList.add(_userTraining[i].title);
-  //   }
-  //   // 重複するタイトルを削除
-  //   titleList = titleList.toSet().toList();
-  //   for (var i = 0; i < titleList.length; i++) {
-  //     double _sumTime = 0;
-  //     for (var j = 0; j < _userTraining.length; j++) {
-  //       if (titleList[i] == _userTraining[j].title) {
-  //         _sumTime += _userTraining[j].spentTime;
-  //       }
-  //     }
-  //     _spentTimeList.add(KeyAndTime(key: titleList[i], sumTime: _sumTime));
-  //   }
-  //   // Sort: If you change the order of a and b, you can change ascending and descending.
-  //   _spentTimeList.sort((a, b) => b.sumTime.compareTo(a.sumTime));
-  //   return _spentTimeList;
-  // }
 }
