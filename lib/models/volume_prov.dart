@@ -9,7 +9,7 @@ class VolumeProv with ChangeNotifier {
   List<Volume> _userVolume = [];
 
   List<Volume> get userVolumes {
-    return [..._userVolume];
+    return [..._userVolume].toList();
   }
 
   void addVolume(Volume volume) {

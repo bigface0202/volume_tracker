@@ -19,23 +19,25 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _weightsController = TextEditingController();
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
+  final _timesForcusNode = FocusNode();
   String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
-  String _selectedPart;
+  String _selectedPart = 'Shoulder';
   List<String> _parts = [
-    "Shoulder",
-    "Chest",
-    "Biceps",
-    "Triceps",
-    "Arm",
-    "Back",
-    "Abdominal",
-    "Leg"
+    'Shoulder',
+    'Chest',
+    'Biceps',
+    'Triceps',
+    'Arm',
+    'Back',
+    'Abdominal',
+    'Leg'
   ];
 
   @override
   void dispose() {
     _weightsController.dispose();
     _timesController.dispose();
+    _timesForcusNode.dispose();
     super.dispose();
   }
 
@@ -186,22 +188,31 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 80,
-                          width: 120,
+                          width: 150,
+                          // Weight TextFormField
                           child: TextFormField(
                             style: TextStyle(
                               fontSize: 24,
                             ),
+                            // decoration: InputDecoration(labelStyle: labelstyle),
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
+                            textInputAction: TextInputAction.next,
                             controller: _weightsController,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please fill the field';
                               }
+                              if (double.tryParse(value) == null) {
+                                return 'Please enter a valid number.';
+                              }
+                              if (double.parse(value) <= 0) {
+                                return 'Please enter a number greater than zero.';
+                              }
                               return null;
                             },
-                            onFieldSubmitted: (_) =>
-                                FocusScope.of(context).unfocus(),
+                            onFieldSubmitted: (_) => FocusScope.of(context)
+                                .requestFocus(_timesForcusNode),
                           ),
                         ),
                         Text(
@@ -214,7 +225,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 80,
-                          width: 120,
+                          width: 150,
                           child: TextFormField(
                             style: TextStyle(
                               fontSize: 24,
@@ -222,14 +233,19 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                             textAlign: TextAlign.center,
                             keyboardType: TextInputType.number,
                             controller: _timesController,
+                            focusNode: _timesForcusNode,
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please fill the field';
                               }
+                              if (double.tryParse(value) == null) {
+                                return 'Please enter a valid number.';
+                              }
+                              if (double.parse(value) <= 0) {
+                                return 'Please enter a number greater than zero.';
+                              }
                               return null;
                             },
-                            onFieldSubmitted: (_) =>
-                                FocusScope.of(context).unfocus(),
                           ),
                         ),
                         Text(
@@ -245,7 +261,14 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                     'Save',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onPressed: _submitData,
+                  onPressed: () {
+                    final isValid = _form.currentState.validate();
+                    if (!isValid) {
+                      return;
+                    }
+                    _form.currentState.save();
+                    _submitData();
+                  },
                   color: Colors.indigo,
                 ),
                 Divider(
