@@ -22,7 +22,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesForcusNode = FocusNode();
   String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart = 'Shoulder';
-  List<String> _parts = [
+  final List<String> _parts = [
     'Shoulder',
     'Chest',
     'Biceps',
@@ -188,7 +188,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 80,
-                          width: 150,
+                          width: 120,
                           // Weight TextFormField
                           child: TextFormField(
                             style: TextStyle(
@@ -199,6 +199,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                             keyboardType: TextInputType.number,
                             textInputAction: TextInputAction.next,
                             controller: _weightsController,
+                            decoration: InputDecoration(errorMaxLines: 2),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please fill the field';
@@ -225,7 +226,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       children: <Widget>[
                         SizedBox(
                           height: 80,
-                          width: 150,
+                          width: 120,
                           child: TextFormField(
                             style: TextStyle(
                               fontSize: 24,
@@ -234,6 +235,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                             keyboardType: TextInputType.number,
                             controller: _timesController,
                             focusNode: _timesForcusNode,
+                            decoration: InputDecoration(errorMaxLines: 2),
                             validator: (value) {
                               if (value.isEmpty) {
                                 return 'Please fill the field';

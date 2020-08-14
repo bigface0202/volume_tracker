@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/training_list.dart';
-import '../models/training_prov.dart';
 import '../models/volume_prov.dart';
 
 class TrainingScreen extends StatefulWidget {

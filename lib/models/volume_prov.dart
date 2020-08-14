@@ -9,7 +9,12 @@ class VolumeProv with ChangeNotifier {
   List<Volume> _userVolume = [];
 
   List<Volume> get userVolumes {
-    return [..._userVolume].toList();
+    if (_userVolume.length > 0) {
+      _userVolume.sort((a, b) => b.date.compareTo(a.date));
+      return [..._userVolume].toList();
+    } else {
+      return [..._userVolume].toList();
+    }
   }
 
   void addVolume(Volume volume) {

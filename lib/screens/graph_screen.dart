@@ -76,7 +76,7 @@ class _GraphScreenState extends State<GraphScreen> {
   }
 
   List<PartVolume> _calcPeriod(DateTime sDate, DateTime eDate) {
-    Map<String, double> _periodVolume =
+    final Map<String, double> _periodVolume =
         Provider.of<VolumeProv>(context, listen: false)
             .calcPeriodVolume(sDate, eDate);
     final data = [
