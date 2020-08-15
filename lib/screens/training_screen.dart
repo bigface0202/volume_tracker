@@ -4,12 +4,7 @@ import 'package:provider/provider.dart';
 import '../widgets/training_list.dart';
 import '../models/volume_prov.dart';
 
-class TrainingScreen extends StatefulWidget {
-  @override
-  _TrainingScreenState createState() => _TrainingScreenState();
-}
-
-class _TrainingScreenState extends State<TrainingScreen> {
+class TrainingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

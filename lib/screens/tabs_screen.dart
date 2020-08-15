@@ -40,6 +40,12 @@ class _TabsScreenState extends State<TabsScreen>
         title: Text(
           _pages[_selectedPageIndex]['title'],
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: _pages[_selectedPageIndex]['page'],
       bottomNavigationBar: BottomNavigationBar(

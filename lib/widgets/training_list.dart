@@ -39,7 +39,7 @@ class _TrainingListState extends State<TrainingList> {
                       return Card(
                         elevation: 5,
                         margin: EdgeInsets.symmetric(
-                          vertical: 8,
+                          vertical: 5,
                           horizontal: 5,
                         ),
                         child: Column(
