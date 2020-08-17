@@ -11,6 +11,7 @@ class _TabsScreenState extends State<TabsScreen>
     with SingleTickerProviderStateMixin {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  List<String> _settings = ["Body weight", "Setting"];
 
   @override
   void initState() {
@@ -41,9 +42,26 @@ class _TabsScreenState extends State<TabsScreen>
           _pages[_selectedPageIndex]['title'],
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.more_vert),
-            onPressed: () {},
+          PopupMenuButton(
+            // onSelected: (FilterOptions selectedValue) {
+            //   setState(() {
+            //     if (selectedValue == FilterOptions.Favorites) {
+            //       _showOnlyFavorites = true;
+            //     } else {
+            //       _showOnlyFavorites = false;
+            //     }
+            //   });
+            // },
+            icon: Icon(
+              Icons.more_vert,
+            ),
+            itemBuilder: (BuildContext context) {
+              return _settings.map(
+                (String setting) {
+                  return PopupMenuItem(child: Text(setting), value: setting);
+                },
+              ).toList();
+            },
           ),
         ],
       ),
