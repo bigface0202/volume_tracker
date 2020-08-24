@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:volume_tracker/widgets/setting_dialog.dart';
+
+import '../screens/setting_screen.dart';
 import './graph_screen.dart';
 import './training_screen.dart';
 
@@ -11,7 +14,6 @@ class _TabsScreenState extends State<TabsScreen>
     with SingleTickerProviderStateMixin {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
-  List<String> _settings = ["Body weight", "Setting"];
 
   @override
   void initState() {
@@ -34,6 +36,21 @@ class _TabsScreenState extends State<TabsScreen>
     });
   }
 
+  Future<double> showSettingDialog({
+    @required BuildContext context,
+    TransitionBuilder builder,
+    bool useRootNavigator = true,
+  }) {
+    final Widget dialog = SettingDialog();
+    return showDialog(
+      context: context,
+      useRootNavigator: useRootNavigator,
+      builder: (BuildContext context) {
+        return builder == null ? dialog : builder(context, dialog);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,27 +59,13 @@ class _TabsScreenState extends State<TabsScreen>
           _pages[_selectedPageIndex]['title'],
         ),
         actions: [
-          PopupMenuButton(
-            // onSelected: (FilterOptions selectedValue) {
-            //   setState(() {
-            //     if (selectedValue == FilterOptions.Favorites) {
-            //       _showOnlyFavorites = true;
-            //     } else {
-            //       _showOnlyFavorites = false;
-            //     }
-            //   });
-            // },
-            icon: Icon(
-              Icons.more_vert,
-            ),
-            itemBuilder: (BuildContext context) {
-              return _settings.map(
-                (String setting) {
-                  return PopupMenuItem(child: Text(setting), value: setting);
-                },
-              ).toList();
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () async {
+              double _bodyWeight = await showSettingDialog(context: context);
+              // Navigator.of(context).pushNamed(SettingScreen.routeName);
             },
-          ),
+          )
         ],
       ),
       body: _pages[_selectedPageIndex]['page'],
