@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:volume_tracker/widgets/setting_dialog.dart';
+import 'package:provider/provider.dart';
 
-import '../screens/setting_screen.dart';
+import '../models/user_info_prov.dart';
+import '../models/user_info.dart';
 import './graph_screen.dart';
 import './training_screen.dart';
 
@@ -63,7 +65,12 @@ class _TabsScreenState extends State<TabsScreen>
             icon: Icon(Icons.settings),
             onPressed: () async {
               double _bodyWeight = await showSettingDialog(context: context);
-              // Navigator.of(context).pushNamed(SettingScreen.routeName);
+              final newUserInfo = UserInfo(
+                id: "setting",
+                bodyWeight: _bodyWeight,
+              );
+              Provider.of<UserInfoProv>(context, listen: false)
+                  .addUserInfo(newUserInfo);
             },
           )
         ],

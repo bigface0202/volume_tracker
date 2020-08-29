@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'package:volume_tracker/models/user_info_prov.dart';
 
 import 'models/training_prov.dart';
 import 'models/volume_prov.dart';
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (ctx) => VolumeProv(),
+        ),
+        ChangeNotifierProvider(
+          create: (ctx) => UserInfoProv(),
         ),
       ],
       child: MaterialApp(

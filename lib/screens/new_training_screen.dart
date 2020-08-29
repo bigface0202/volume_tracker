@@ -20,6 +20,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _timesForcusNode = FocusNode();
+  final double bodyWeight = 60.0;
   String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart = 'Shoulder';
   final List<String> _parts = [
@@ -41,6 +42,40 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
     super.dispose();
   }
 
+  _multiplyWeightTimes(String part, double weight, double times) {
+    final double armWeight = bodyWeight * 0.05;
+    final double upperArmWeight = bodyWeight * 0.03;
+    final double handWeight = bodyWeight * 0.01;
+    final double upperBodyWeight = bodyWeight * 0.64;
+    if (weight == 0) {
+      switch (part) {
+        case 'Shoulder':
+          return armWeight * times;
+          break;
+        case 'Chest':
+          return upperBodyWeight * times;
+          break;
+        case 'Biceps':
+          return upperArmWeight * times;
+          break;
+        case 'Triceps':
+          return upperArmWeight * times;
+          break;
+        case 'Arm':
+          return handWeight * times;
+          break;
+        case 'Back':
+          return upperBodyWeight * times;
+          break;
+        case 'Leg':
+          return upperBodyWeight * times;
+          break;
+      }
+    } else {
+      return weight * times;
+    }
+  }
+
   void _submitData() {
     final enteredPart = _selectedPart;
     final enteredWeights = double.parse(_weightsController.text);
@@ -57,7 +92,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
       part: enteredPart,
       weights: enteredWeights,
       times: enteredTimes,
-      volume: enteredWeights * enteredTimes,
+      volume: _multiplyWeightTimes(enteredPart, enteredWeights, enteredTimes),
       date: _selectedDate,
       id: DateTime.now().toString(),
     );
@@ -206,9 +241,6 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                               }
                               if (double.tryParse(value) == null) {
                                 return 'Please enter a valid number.';
-                              }
-                              if (double.parse(value) <= 0) {
-                                return 'Please enter a number greater than zero.';
                               }
                               return null;
                             },

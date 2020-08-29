@@ -14,6 +14,7 @@ class DBHelper {
         'CREATE TABLE user_trainings(id TEXT PRIMARY KEY, part TEXT, weights REAL, times REAL, volume REAL, date TEXT)');
     db.execute(
         'CREATE TABLE user_volumes(id TEXT PRIMARY KEY, date TEXT, shoulder REAL, chest REAL, biceps REAL, triceps REAL, arm REAL, back REAL, abdominal REAL, leg REAL)');
+    db.execute('CREATE TABLE user_info(id TEXT PRIMARY KEY, bodyweight REAL)');
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
