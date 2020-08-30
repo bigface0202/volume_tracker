@@ -156,7 +156,7 @@ class _DayTrainingListState extends State<DayTrainingList> {
                                   textAlign: TextAlign.center,
                                 ),
                                 Text(
-                                  '${trainings.onedayTrainings(widget.oneday)[index].volume} vol.',
+                                  '${trainings.onedayTrainings(widget.oneday)[index].volume.roundToDouble()} vol.',
                                   style: TextStyle(fontSize: 16),
                                   textAlign: TextAlign.center,
                                 ),

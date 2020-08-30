@@ -16,6 +16,7 @@ class _TabsScreenState extends State<TabsScreen>
     with SingleTickerProviderStateMixin {
   List<Map<String, Object>> _pages;
   int _selectedPageIndex = 0;
+  final _formKeyInDialog = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -30,6 +31,12 @@ class _TabsScreenState extends State<TabsScreen>
       },
     ];
     super.initState();
+    _loadSettingData();
+  }
+
+  void _loadSettingData() async {
+    await Provider.of<UserInfoProv>(context, listen: false)
+        .fetchAndSetUserInfo();
   }
 
   void _selectPage(int index) {
@@ -43,7 +50,11 @@ class _TabsScreenState extends State<TabsScreen>
     TransitionBuilder builder,
     bool useRootNavigator = true,
   }) {
-    final Widget dialog = SettingDialog();
+    final _userInfo =
+        Provider.of<UserInfoProv>(context, listen: false).userInfos;
+    final _userBodyWeight =
+        _userInfo.length == 0 ? 60.0 : _userInfo[0].bodyWeight;
+    final Widget dialog = SettingDialog(_userBodyWeight, _formKeyInDialog);
     return showDialog(
       context: context,
       useRootNavigator: useRootNavigator,

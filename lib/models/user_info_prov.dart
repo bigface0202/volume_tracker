@@ -16,12 +16,22 @@ class UserInfoProv with ChangeNotifier {
       id: info.id,
       bodyWeight: info.bodyWeight,
     );
-    _userInfo.add(newInfo);
-    notifyListeners();
-    DBHelper.insert('user_info', {
-      'id': info.id,
-      'bodyweight': info.bodyWeight,
-    });
+    // final addOrUpdate = _userInfo.indexWhere((info) => info.id == newInfo.id);
+    if (_userInfo.length == 0) {
+      _userInfo.add(newInfo);
+      notifyListeners();
+      DBHelper.insert('user_info', {
+        'id': info.id,
+        'bodyweight': info.bodyWeight,
+      });
+    } else {
+      _userInfo[0] = newInfo;
+      notifyListeners();
+      DBHelper.update('user_info', 'setting', {
+        'id': info.id,
+        'bodyweight': info.bodyWeight,
+      });
+    }
   }
 
   Future<void> fetchAndSetUserInfo() async {

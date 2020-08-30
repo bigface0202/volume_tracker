@@ -24,6 +24,8 @@ class DBHelper {
       data,
       conflictAlgorithm: sql.ConflictAlgorithm.replace,
     );
+    // print("this is add");
+    // print(await db.query(table));
   }
 
   static Future<void> delete(String table, String id) async {
@@ -44,6 +46,8 @@ class DBHelper {
       where: "id = ?",
       whereArgs: [id],
     );
+    // print("this is update");
+    // print(await db.query(table));
   }
 
   static Future<List<Map<String, dynamic>>> getData(String table) async {

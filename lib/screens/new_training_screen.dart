@@ -7,6 +7,8 @@ import '../models/training.dart';
 import '../models/training_prov.dart';
 import '../models/volume.dart';
 import '../models/volume_prov.dart';
+import '../models/user_info.dart';
+import '../models/user_info_prov.dart';
 import '../widgets/day_training_list.dart';
 
 class NewTrainingScreen extends StatefulWidget {
@@ -20,9 +22,9 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _timesForcusNode = FocusNode();
-  final double bodyWeight = 60.0;
   String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart = 'Shoulder';
+  double bodyWeight;
   final List<String> _parts = [
     'Shoulder',
     'Chest',
@@ -33,6 +35,16 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
     'Abdominal',
     'Leg'
   ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    final _userInfo = Provider.of<UserInfoProv>(context, listen: false);
+    bodyWeight = _userInfo.userInfos.length > 0
+        ? _userInfo.userInfos[0].bodyWeight
+        : 60.0;
+    super.initState();
+  }
 
   @override
   void dispose() {
