@@ -40,8 +40,7 @@ class MakePieChart extends StatelessWidget {
           domainFn: (PartVolume ptvol, _) => ptvol.part,
           measureFn: (PartVolume ptvol, _) => ptvol.volume,
           colorFn: (PartVolume ptvol, _) => ptvol.color,
-          labelAccessorFn: (PartVolume ptvol, _) =>
-              '${ptvol.volume.roundToDouble()}',
+          labelAccessorFn: (PartVolume ptvol, _) => '${ptvol.volume.round()}',
           data: data,
         )
       ];

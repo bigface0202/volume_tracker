@@ -73,7 +73,7 @@ class _TabsScreenState extends State<TabsScreen>
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.assignment_ind),
             onPressed: () async {
               double _bodyWeight = await showSettingDialog(context: context);
               final newUserInfo = UserInfo(

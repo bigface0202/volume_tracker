@@ -54,7 +54,7 @@ class _TrainingListState extends State<TrainingList> {
                               ],
                             ),
                             SizedBox(
-                              width: 400.0,
+                              width: 350.0,
                               height: 300.0,
                               child: MakePieChart(volumes.userVolumes[index]),
                             ),
