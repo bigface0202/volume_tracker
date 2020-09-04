@@ -127,49 +127,51 @@ class _DayTrainingListState extends State<DayTrainingList> {
                           _deleteData(
                               trainings.onedayTrainings(widget.oneday)[index]);
                         },
-                        child: Card(
-                          elevation: 2,
-                          margin: EdgeInsets.symmetric(
-                            vertical: 3,
-                            horizontal: 5,
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Text(
-                                  '${trainings.onedayTrainings(widget.oneday)[index].part}',
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  '${trainings.onedayTrainings(widget.oneday)[index].weights} kg',
-                                  style: TextStyle(fontSize: 16),
-                                  textAlign: TextAlign.right,
-                                ),
-                                Text(
-                                  '${trainings.onedayTrainings(widget.oneday)[index].times} times',
-                                  style: TextStyle(fontSize: 16),
-                                  textAlign: TextAlign.center,
-                                ),
-                                Text(
-                                  '${trainings.onedayTrainings(widget.oneday)[index].volume.roundToDouble()} vol.',
-                                  style: TextStyle(fontSize: 16),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        child: buildCard(trainings, index),
                       );
                     },
                   ),
           );
         }
       },
+    );
+  }
+
+  Card buildCard(TrainingProv trainings, int index) {
+    return Card(
+      elevation: 2,
+      margin: EdgeInsets.symmetric(
+        vertical: 3,
+        horizontal: 5,
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              '${trainings.onedayTrainings(widget.oneday)[index].part}',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '${trainings.onedayTrainings(widget.oneday)[index].weights} kg',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.right,
+            ),
+            Text(
+              '${trainings.onedayTrainings(widget.oneday)[index].times} times',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+            Text(
+              '${trainings.onedayTrainings(widget.oneday)[index].volume.roundToDouble()} vol.',
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

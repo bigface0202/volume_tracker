@@ -37,6 +37,21 @@ class DBHelper {
     );
   }
 
+  static Future<void> deleteMultiple(String table, List<String> idList) async {
+    final db = await DBHelper.database();
+    Batch batch = db.batch();
+    idList.forEach((id) {
+      batch.delete(
+        table,
+        where: "id = ?",
+        whereArgs: [id],
+      );
+    });
+    await batch.commit();
+    // print("this is delete");
+    // print(await db.query(table));
+  }
+
   static Future<void> update(
       String table, String id, Map<String, Object> data) async {
     final db = await DBHelper.database();

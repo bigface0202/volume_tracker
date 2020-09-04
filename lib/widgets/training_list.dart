@@ -3,6 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:volume_tracker/widgets/make_pie_chart.dart';
 
 import '../models/volume_prov.dart';
+import '../models/volume.dart';
+import '../models/training_prov.dart';
 
 class TrainingList extends StatefulWidget {
   @override
@@ -10,6 +12,13 @@ class TrainingList extends StatefulWidget {
 }
 
 class _TrainingListState extends State<TrainingList> {
+  void _deleteVolume(Volume deleteVolume) {
+    Provider.of<VolumeProv>(context, listen: false)
+        .removeVolume(deleteVolume.date);
+    Provider.of<TrainingProv>(context, listen: false)
+        .removeTrainingByDate(deleteVolume.date);
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -36,36 +45,96 @@ class _TrainingListState extends State<TrainingList> {
                     shrinkWrap: true,
                     itemCount: volumes.userVolumes.length,
                     itemBuilder: (ctx, index) {
-                      return Card(
-                        elevation: 5,
-                        margin: EdgeInsets.symmetric(
-                          vertical: 5,
-                          horizontal: 5,
+                      return Dismissible(
+                        key: ValueKey(volumes.userVolumes[index].id),
+                        background: Container(
+                          color: Theme.of(context).errorColor,
+                          child:
+                              Icon(Icons.delete, color: Colors.white, size: 40),
+                          alignment: Alignment.centerRight,
+                          padding: EdgeInsets.only(right: 20),
+                          margin: EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 4,
+                          ),
                         ),
-                        child: Column(
-                          children: <Widget>[
-                            Row(
-                              children: <Widget>[
-                                Text(
-                                  volumes.userVolumes[index].date,
-                                  style: TextStyle(fontSize: 20),
-                                  textAlign: TextAlign.left,
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (direction) {
+                          return showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Are you sure?'),
+                              content: Text(
+                                'Do you want to remove this?',
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text('No'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(false); //Comes back
+                                  },
+                                ), //Dont continue
+                                FlatButton(
+                                  child: Text('Yes'),
+                                  onPressed: () {
+                                    Navigator.of(ctx).pop(true); //Go on
+                                  },
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              width: 350.0,
-                              height: 300.0,
-                              child: MakePieChart(volumes.userVolumes[index]),
+                          );
+                        },
+                        onDismissed: (direction) {
+                          Scaffold.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Delete',
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ],
-                        ),
+                          );
+                          _deleteVolume(volumes.userVolumes[index]);
+                        },
+                        child: buildCard(volumes, index),
                       );
+                      // return DeleteCard(
+                      //   volumes.userVolumes[index].id,
+                      //   _deleteVolume(volumes.userVolumes[index].date),
+                      //   buildCard(volumes, index),
+                      // );
                     },
                   ),
           );
         }
       },
+    );
+  }
+
+  Card buildCard(VolumeProv volumes, int index) {
+    return Card(
+      elevation: 5,
+      margin: EdgeInsets.symmetric(
+        vertical: 5,
+        horizontal: 5,
+      ),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text(
+                volumes.userVolumes[index].date,
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.left,
+              ),
+            ],
+          ),
+          SizedBox(
+            width: 350.0,
+            height: 300.0,
+            child: MakePieChart(volumes.userVolumes[index]),
+          ),
+        ],
+      ),
     );
   }
 }

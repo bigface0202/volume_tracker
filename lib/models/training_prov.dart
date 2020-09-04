@@ -73,6 +73,20 @@ class TrainingProv with ChangeNotifier {
     DBHelper.delete('user_trainings', id);
   }
 
+  void removeTrainingByDate(String date) {
+    final List<String> exsistingTrainingIds = [];
+    _userTraining.asMap().forEach((index, element) {
+      if (element.date == date) {
+        exsistingTrainingIds.add(element.id);
+      }
+    });
+    // exsistingTrainingIndexes.forEach((id) {
+    //   _userTraining.removeAt(id);
+    // });
+    notifyListeners();
+    DBHelper.deleteMultiple('user_trainings', exsistingTrainingIds);
+  }
+
   Future<void> fetchAndSetTrainings() async {
     final dataList = await DBHelper.getData('user_trainings');
     _userTraining = dataList
