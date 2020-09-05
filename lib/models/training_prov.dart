@@ -12,10 +12,9 @@ class TrainingProv with ChangeNotifier {
   }
 
   List<Training> onedayTrainings(String date) {
-    // return _userTraining
-    List<Training> test =
+    List<Training> dayTgs =
         _userTraining.where((usrTg) => usrTg.date == date).toList();
-    return test;
+    return dayTgs;
   }
 
   Map<String, double> volumeCalc(String date) {
@@ -34,14 +33,6 @@ class TrainingProv with ChangeNotifier {
       partsVolume.update(element.part, (value) => value + element.volume);
     });
     return partsVolume;
-  }
-
-  List<String> get trainingDates {
-    List<String> test = [];
-    _userTraining.forEach((usrTg) {
-      test.add(usrTg.date);
-    });
-    return test.toSet().toList();
   }
 
   void addTraining(Training training) {
@@ -75,14 +66,17 @@ class TrainingProv with ChangeNotifier {
 
   void removeTrainingByDate(String date) {
     final List<String> exsistingTrainingIds = [];
-    _userTraining.asMap().forEach((index, element) {
-      if (element.date == date) {
-        exsistingTrainingIds.add(element.id);
-      }
-    });
+    // _userTraining.asMap().forEach((index, element) {
+    //   if (element.date == date) {
+    //     exsistingTrainingIds.add(element.id);
+    //   }
+    // });
     // exsistingTrainingIndexes.forEach((id) {
     //   _userTraining.removeAt(id);
     // });
+    _userTraining.forEach((usrTg) {
+      exsistingTrainingIds.add(usrTg.id);
+    });
     notifyListeners();
     DBHelper.deleteMultiple('user_trainings', exsistingTrainingIds);
   }
