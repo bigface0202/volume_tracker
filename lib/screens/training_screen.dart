@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import '../widgets/training_list.dart';
 import '../models/volume_prov.dart';
+import '../screens/new_training_screen.dart';
 
 class TrainingScreen extends StatelessWidget {
   @override
@@ -29,7 +31,8 @@ class TrainingScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () async {
-          await Navigator.of(context).pushNamed('/new-training');
+          await Navigator.of(context).pushNamed(NewTrainingScreen.routeName,
+              arguments: DateFormat('yyyy-MM-dd').format(DateTime.now()));
         },
         backgroundColor: Colors.indigo,
       ),

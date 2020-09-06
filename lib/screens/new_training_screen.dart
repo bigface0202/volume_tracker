@@ -7,7 +7,6 @@ import '../models/training.dart';
 import '../models/training_prov.dart';
 import '../models/volume.dart';
 import '../models/volume_prov.dart';
-import '../models/user_info.dart';
 import '../models/user_info_prov.dart';
 import '../widgets/day_training_list.dart';
 
@@ -22,7 +21,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _timesForcusNode = FocusNode();
-  String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
+  String _selectedDate;
   String _selectedPart = 'Shoulder';
   double bodyWeight;
   final List<String> _parts = [
@@ -145,6 +144,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _selectedDate = ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(

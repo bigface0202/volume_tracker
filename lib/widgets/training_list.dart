@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:volume_tracker/screens/new_training_screen.dart';
 import 'package:volume_tracker/widgets/make_pie_chart.dart';
 
 import '../models/volume_prov.dart';
@@ -117,23 +118,28 @@ class _TrainingListState extends State<TrainingList> {
         vertical: 5,
         horizontal: 5,
       ),
-      child: Column(
-        children: <Widget>[
-          Row(
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(NewTrainingScreen.routeName,
+              arguments: volumes.userVolumes[index].date);
+        },
+        child: Container(
+          height: 325,
+          child: Column(
             children: <Widget>[
               Text(
                 volumes.userVolumes[index].date,
                 style: TextStyle(fontSize: 20),
                 textAlign: TextAlign.left,
               ),
+              SizedBox(
+                width: 400.0,
+                height: 300.0,
+                child: MakePieChart(volumes.userVolumes[index]),
+              ),
             ],
           ),
-          SizedBox(
-            width: 350.0,
-            height: 300.0,
-            child: MakePieChart(volumes.userVolumes[index]),
-          ),
-        ],
+        ),
       ),
     );
   }
