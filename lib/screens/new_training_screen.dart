@@ -21,9 +21,10 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _timesForcusNode = FocusNode();
-  String _selectedDate;
+  String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart = 'Shoulder';
   double bodyWeight;
+  bool _dayChanged = false;
   final List<String> _parts = [
     'Shoulder',
     'Chest',
@@ -137,6 +138,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
         return;
       }
       setState(() {
+        _dayChanged = true;
         _selectedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
       });
     });
@@ -144,7 +146,8 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _selectedDate = ModalRoute.of(context).settings.arguments;
+    _selectedDate =
+        _dayChanged ? _selectedDate : ModalRoute.of(context).settings.arguments;
     return Scaffold(
       appBar: AppBar(
         title: Text(
