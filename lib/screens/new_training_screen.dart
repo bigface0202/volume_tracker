@@ -21,6 +21,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
   final _timesController = TextEditingController();
   final _form = GlobalKey<FormState>();
   final _timesForcusNode = FocusNode();
+  final _weightFocusNode = FocusNode();
   String _selectedDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String _selectedPart = 'Shoulder';
   double bodyWeight;
@@ -51,6 +52,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
     _weightsController.dispose();
     _timesController.dispose();
     _timesForcusNode.dispose();
+    _weightFocusNode.dispose();
     super.dispose();
   }
 
@@ -59,6 +61,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
     final double upperArmWeight = bodyWeight * 0.03;
     final double handWeight = bodyWeight * 0.01;
     final double upperBodyWeight = bodyWeight * 0.64;
+    final double lowerBodyWeight = bodyWeight * 0.34;
     if (weight == 0) {
       switch (part) {
         case 'Shoulder':
@@ -81,6 +84,9 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
           break;
         case 'Leg':
           return upperBodyWeight * times;
+          break;
+        case 'Abdominal':
+          return lowerBodyWeight * times;
           break;
       }
     } else {
@@ -154,177 +160,194 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
           "New training",
         ),
       ),
-      body: Form(
-        key: _form,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: EdgeInsets.only(
-              top: 10,
-              left: 10,
-              right: 10,
-              bottom: MediaQuery.of(context).viewInsets.bottom +
-                  10, //Get Keyboard height + 10
-            ),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Row(
-                        children: [
-                          Text(
-                            'Chosen date: ',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                          Text(
-                            '$_selectedDate',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          )
-                        ],
-                      ),
-                    ),
-                    Column(
-                      children: <Widget>[
-                        IconButton(
-                          icon: Icon(Icons.calendar_today),
-                          color: Colors.indigo,
-                          onPressed: _presentDatePicker,
-                        ),
-                        Text('Change date')
-                      ],
-                    )
-                  ],
+      body: Builder(
+        builder: (ctx) => GestureDetector(
+          onTap: () {
+            _weightFocusNode.unfocus();
+            _timesForcusNode.unfocus();
+          },
+          child: Form(
+            key: _form,
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  top: 10,
+                  left: 10,
+                  right: 10,
+                  bottom: MediaQuery.of(context).viewInsets.bottom +
+                      10, //Get Keyboard height + 10
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                child: Column(
                   children: <Widget>[
-                    Text(
-                      'Choose your training part',
-                      style: TextStyle(fontSize: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            children: [
+                              Text(
+                                'Chosen date: ',
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              Text(
+                                '$_selectedDate',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          ),
+                        ),
+                        Column(
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(Icons.calendar_today),
+                              color: Colors.indigo,
+                              onPressed: _presentDatePicker,
+                            ),
+                            Text('Change date')
+                          ],
+                        )
+                      ],
                     ),
-                    DropdownButton<String>(
-                      value: _selectedPart,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 30,
-                      elevation: 16,
-                      style: TextStyle(fontSize: 20, color: Colors.black),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.grey,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Text(
+                          'Choose your training part',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        DropdownButton<String>(
+                          value: _selectedPart,
+                          icon: Icon(Icons.arrow_drop_down),
+                          iconSize: 30,
+                          elevation: 16,
+                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.grey,
+                          ),
+                          onChanged: (newValue) {
+                            setState(() {
+                              _selectedPart = newValue;
+                            });
+                          },
+                          items: _parts.map(
+                            (String part) {
+                              return DropdownMenuItem(
+                                value: part,
+                                child: Text(part),
+                              );
+                            },
+                          ).toList(),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 80,
+                              width: 120,
+                              // Weight TextFormField
+                              child: TextFormField(
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
+                                // decoration: InputDecoration(labelStyle: labelstyle),
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                textInputAction: TextInputAction.next,
+                                controller: _weightsController,
+                                focusNode: _weightFocusNode,
+                                decoration: InputDecoration(errorMaxLines: 2),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please fill the field';
+                                  }
+                                  if (double.tryParse(value) == null) {
+                                    return 'Please enter a valid number.';
+                                  }
+                                  return null;
+                                },
+                                onFieldSubmitted: (_) => FocusScope.of(context)
+                                    .requestFocus(_timesForcusNode),
+                              ),
+                            ),
+                            Text(
+                              'Kg.',
+                              style: TextStyle(fontSize: 16),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(
+                              height: 80,
+                              width: 120,
+                              child: TextFormField(
+                                style: TextStyle(
+                                  fontSize: 24,
+                                ),
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                controller: _timesController,
+                                focusNode: _timesForcusNode,
+                                decoration: InputDecoration(errorMaxLines: 2),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please fill the field';
+                                  }
+                                  if (double.tryParse(value) == null) {
+                                    return 'Please enter a valid number.';
+                                  }
+                                  if (double.parse(value) <= 0) {
+                                    return 'Please enter a number greater than zero.';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Text(
+                              'Times',
+                              style: TextStyle(fontSize: 16),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                    FlatButton(
+                      child: Text(
+                        'Save',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      onChanged: (newValue) {
-                        setState(() {
-                          _selectedPart = newValue;
-                        });
+                      onPressed: () {
+                        final isValid = _form.currentState.validate();
+                        if (!isValid) {
+                          return;
+                        }
+                        Scaffold.of(ctx).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              '$_selectedPart is done!',
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        );
+                        _form.currentState.save();
+                        _submitData();
                       },
-                      items: _parts.map(
-                        (String part) {
-                          return DropdownMenuItem(
-                            value: part,
-                            child: Text(part),
-                          );
-                        },
-                      ).toList(),
+                      color: Colors.indigo,
                     ),
+                    Divider(
+                      color: Colors.grey,
+                    ),
+                    DayTrainingList(_selectedDate),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 80,
-                          width: 120,
-                          // Weight TextFormField
-                          child: TextFormField(
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
-                            // decoration: InputDecoration(labelStyle: labelstyle),
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            textInputAction: TextInputAction.next,
-                            controller: _weightsController,
-                            decoration: InputDecoration(errorMaxLines: 2),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please fill the field';
-                              }
-                              if (double.tryParse(value) == null) {
-                                return 'Please enter a valid number.';
-                              }
-                              return null;
-                            },
-                            onFieldSubmitted: (_) => FocusScope.of(context)
-                                .requestFocus(_timesForcusNode),
-                          ),
-                        ),
-                        Text(
-                          'Kg.',
-                          style: TextStyle(fontSize: 16),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 80,
-                          width: 120,
-                          child: TextFormField(
-                            style: TextStyle(
-                              fontSize: 24,
-                            ),
-                            textAlign: TextAlign.center,
-                            keyboardType: TextInputType.number,
-                            controller: _timesController,
-                            focusNode: _timesForcusNode,
-                            decoration: InputDecoration(errorMaxLines: 2),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please fill the field';
-                              }
-                              if (double.tryParse(value) == null) {
-                                return 'Please enter a valid number.';
-                              }
-                              if (double.parse(value) <= 0) {
-                                return 'Please enter a number greater than zero.';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Text(
-                          'Times',
-                          style: TextStyle(fontSize: 16),
-                        )
-                      ],
-                    ),
-                  ],
-                ),
-                FlatButton(
-                  child: Text(
-                    'Save',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onPressed: () {
-                    final isValid = _form.currentState.validate();
-                    if (!isValid) {
-                      return;
-                    }
-                    _form.currentState.save();
-                    _submitData();
-                  },
-                  color: Colors.indigo,
-                ),
-                Divider(
-                  color: Colors.grey,
-                ),
-                DayTrainingList(_selectedDate),
-              ],
+              ),
             ),
           ),
         ),
