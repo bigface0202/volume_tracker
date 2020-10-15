@@ -15,6 +15,12 @@ class DayTrainingList extends StatefulWidget {
 }
 
 class _DayTrainingListState extends State<DayTrainingList> {
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   void _deleteData(Training deleteDataList) {
     final String deleteId = deleteDataList.id;
     final String updateDate = deleteDataList.date;
@@ -90,7 +96,9 @@ class _DayTrainingListState extends State<DayTrainingList> {
                           ),
                         ),
                         direction: DismissDirection.endToStart,
-                        confirmDismiss: (direction) {
+                        confirmDismiss: (direction) async {
+                          await Future.delayed(
+                              const Duration(milliseconds: 100), () {});
                           return showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(
