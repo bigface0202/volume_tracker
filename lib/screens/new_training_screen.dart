@@ -179,12 +179,12 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Container(
-                            padding: EdgeInsets.all(10),
+                            padding: EdgeInsets.all(5),
                             child: Row(
                               children: [
                                 Text(
@@ -217,7 +217,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
@@ -253,7 +253,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.all(10),
+                      padding: EdgeInsets.all(5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
