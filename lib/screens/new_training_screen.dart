@@ -39,7 +39,6 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     final _userInfo = Provider.of<UserInfoProv>(context, listen: false);
     bodyWeight = _userInfo.userInfos.length > 0
         ? _userInfo.userInfos[0].bodyWeight
@@ -179,149 +178,163 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
                 ),
                 child: Column(
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(10),
-                          child: Row(
-                            children: [
-                              Text(
-                                'Chosen date: ',
-                                style: TextStyle(fontSize: 16),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Chosen date: ',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                                Text(
+                                  '$_selectedDate',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
+                                )
+                              ],
+                            ),
+                          ),
+                          Column(
+                            children: <Widget>[
+                              IconButton(
+                                icon: Icon(Icons.calendar_today),
+                                color: Colors.indigo,
+                                onPressed: _presentDatePicker,
                               ),
                               Text(
-                                '$_selectedDate',
-                                style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                'Change date',
+                                style: TextStyle(fontSize: 18),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            'Choose your training part',
+                            style: TextStyle(fontSize: 18),
+                          ),
+                          DropdownButton<String>(
+                            value: _selectedPart,
+                            icon: Icon(Icons.arrow_drop_down),
+                            iconSize: 30,
+                            elevation: 16,
+                            style: TextStyle(fontSize: 20, color: Colors.black),
+                            underline: Container(
+                              height: 2,
+                              color: Colors.grey,
+                            ),
+                            onChanged: (newValue) {
+                              setState(() {
+                                _selectedPart = newValue;
+                              });
+                            },
+                            items: _parts.map(
+                              (String part) {
+                                return DropdownMenuItem(
+                                  value: part,
+                                  child: Text(part),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 80,
+                                width: 120,
+                                // Weight TextFormField
+                                child: TextFormField(
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                  ),
+                                  // decoration: InputDecoration(labelStyle: labelstyle),
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  textInputAction: TextInputAction.next,
+                                  controller: _weightsController,
+                                  focusNode: _weightFocusNode,
+                                  decoration: InputDecoration(errorMaxLines: 2),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please fill the field';
+                                    }
+                                    if (double.tryParse(value) == null) {
+                                      return 'Please enter a valid number.';
+                                    }
+                                    return null;
+                                  },
+                                  onFieldSubmitted: (_) =>
+                                      FocusScope.of(context)
+                                          .requestFocus(_timesForcusNode),
+                                ),
+                              ),
+                              Text(
+                                'Kg.',
+                                style: TextStyle(fontSize: 16),
                               )
                             ],
                           ),
-                        ),
-                        Column(
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(Icons.calendar_today),
-                              color: Colors.indigo,
-                              onPressed: _presentDatePicker,
-                            ),
-                            Text('Change date')
-                          ],
-                        )
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                          'Choose your training part',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        DropdownButton<String>(
-                          value: _selectedPart,
-                          icon: Icon(Icons.arrow_drop_down),
-                          iconSize: 30,
-                          elevation: 16,
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                          underline: Container(
-                            height: 2,
-                            color: Colors.grey,
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                height: 80,
+                                width: 120,
+                                child: TextFormField(
+                                  style: TextStyle(
+                                    fontSize: 24,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  keyboardType: TextInputType.number,
+                                  controller: _timesController,
+                                  focusNode: _timesForcusNode,
+                                  decoration: InputDecoration(errorMaxLines: 2),
+                                  validator: (value) {
+                                    if (value.isEmpty) {
+                                      return 'Please fill the field';
+                                    }
+                                    if (double.tryParse(value) == null) {
+                                      return 'Please enter a valid number.';
+                                    }
+                                    if (double.parse(value) <= 0) {
+                                      return 'Please enter a number greater than zero.';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                              ),
+                              Text(
+                                'Times',
+                                style: TextStyle(fontSize: 16),
+                              )
+                            ],
                           ),
-                          onChanged: (newValue) {
-                            setState(() {
-                              _selectedPart = newValue;
-                            });
-                          },
-                          items: _parts.map(
-                            (String part) {
-                              return DropdownMenuItem(
-                                value: part,
-                                child: Text(part),
-                              );
-                            },
-                          ).toList(),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 80,
-                              width: 120,
-                              // Weight TextFormField
-                              child: TextFormField(
-                                style: TextStyle(
-                                  fontSize: 24,
-                                ),
-                                // decoration: InputDecoration(labelStyle: labelstyle),
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                textInputAction: TextInputAction.next,
-                                controller: _weightsController,
-                                focusNode: _weightFocusNode,
-                                decoration: InputDecoration(errorMaxLines: 2),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please fill the field';
-                                  }
-                                  if (double.tryParse(value) == null) {
-                                    return 'Please enter a valid number.';
-                                  }
-                                  return null;
-                                },
-                                onFieldSubmitted: (_) => FocusScope.of(context)
-                                    .requestFocus(_timesForcusNode),
-                              ),
-                            ),
-                            Text(
-                              'Kg.',
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 80,
-                              width: 120,
-                              child: TextFormField(
-                                style: TextStyle(
-                                  fontSize: 24,
-                                ),
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                controller: _timesController,
-                                focusNode: _timesForcusNode,
-                                decoration: InputDecoration(errorMaxLines: 2),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Please fill the field';
-                                  }
-                                  if (double.tryParse(value) == null) {
-                                    return 'Please enter a valid number.';
-                                  }
-                                  if (double.parse(value) <= 0) {
-                                    return 'Please enter a number greater than zero.';
-                                  }
-                                  return null;
-                                },
-                              ),
-                            ),
-                            Text(
-                              'Times',
-                              style: TextStyle(fontSize: 16),
-                            )
-                          ],
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     FlatButton(
                       child: Text(
                         'Save',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(fontSize: 18, color: Colors.white),
                       ),
                       onPressed: () {
                         final isValid = _form.currentState.validate();

@@ -15,12 +15,6 @@ class DayTrainingList extends StatefulWidget {
 }
 
 class _DayTrainingListState extends State<DayTrainingList> {
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
-
   void _deleteData(Training deleteDataList) {
     final String deleteId = deleteDataList.id;
     final String updateDate = deleteDataList.date;
@@ -50,6 +44,7 @@ class _DayTrainingListState extends State<DayTrainingList> {
     } else {
       Provider.of<VolumeProv>(context, listen: false).removeVolume(updateDate);
     }
+    print("delete");
   }
 
   @override
@@ -67,7 +62,7 @@ class _DayTrainingListState extends State<DayTrainingList> {
             child: Container(
               margin: const EdgeInsets.all(10.0),
               child: Center(
-                child: const Text('Training list empty'),
+                child: const Text('Training list is empty'),
               ),
             ),
             builder: (ctx, trainings, ch) => trainings
@@ -96,9 +91,7 @@ class _DayTrainingListState extends State<DayTrainingList> {
                           ),
                         ),
                         direction: DismissDirection.endToStart,
-                        confirmDismiss: (direction) async {
-                          await Future.delayed(
-                              const Duration(milliseconds: 100), () {});
+                        confirmDismiss: (direction) {
                           return showDialog(
                             context: context,
                             builder: (ctx) => AlertDialog(

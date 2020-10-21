@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../models/user_info_prov.dart';
 
 class SettingDialog extends StatefulWidget {
   @override
