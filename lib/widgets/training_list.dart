@@ -130,7 +130,7 @@ class _TrainingListState extends State<TrainingList> {
               Text(
                 volumes.userVolumes[index].date,
                 style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.left,
+                textAlign: TextAlign.right,
               ),
               SizedBox(
                 width: 400.0,
