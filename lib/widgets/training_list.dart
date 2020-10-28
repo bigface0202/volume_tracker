@@ -35,7 +35,10 @@ class _TrainingListState extends State<TrainingList> {
             child: Container(
               padding: EdgeInsets.only(top: 265, bottom: 265),
               child: Center(
-                child: const Text('Start new training!'),
+                child: const Text(
+                  'Start new training!',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
             builder: (ctx, volumes, ch) => volumes.userVolumes.length <= 0

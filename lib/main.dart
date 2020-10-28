@@ -7,7 +7,6 @@ import 'models/training_prov.dart';
 import 'models/volume_prov.dart';
 import './screens/tabs_screen.dart';
 import './screens/new_training_screen.dart';
-import './screens/setting_screen.dart';
 
 void main() => runApp(MyApp());
 
@@ -39,7 +38,6 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (ctx) => TabsScreen(),
           NewTrainingScreen.routeName: (ctx) => NewTrainingScreen(),
-          SettingScreen.routeName: (ctx) => SettingScreen(),
         },
       ),
     );
