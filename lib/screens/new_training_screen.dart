@@ -137,7 +137,7 @@ class _NewTrainingScreenState extends State<NewTrainingScreen> {
       context: context,
       initialDate: DateTime.parse(_selectedDate),
       firstDate: DateTime(2020),
-      lastDate: DateTime(2021),
+      lastDate: DateTime(2030),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;

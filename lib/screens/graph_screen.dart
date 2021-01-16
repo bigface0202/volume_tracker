@@ -32,7 +32,7 @@ class _GraphScreenState extends State<GraphScreen> {
       context: context,
       initialDate: _dateTimeNotifier.value.subtract(Duration(days: 7)),
       firstDate: DateTime(2000),
-      lastDate: DateTime(2021),
+      lastDate: DateTime(2030),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -56,7 +56,7 @@ class _GraphScreenState extends State<GraphScreen> {
       context: context,
       initialDate: DateTime.parse(_endDate),
       firstDate: _dateTimeNotifier.value,
-      lastDate: DateTime(2021),
+      lastDate: DateTime(2030),
     ).then(
       (pickedDate) {
         if (pickedDate == null) {
